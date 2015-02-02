@@ -15,15 +15,50 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-      <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+      <script src="js/jquery-2.1.3.min.js"></script>
       <script>
           $(function () {
               var Chromosome = require('Chromosome');
               new Chromosome({
                   segment: "13",
                   target: "#chr13",
-                  width: 1000
+                  width: 1000,
+                  includeAxis: true
               }).draw();
+
+              var cx = new Chromosome({
+                  segment: "X",
+                  target: "#chrx",
+                  width: 1000,
+                  relativeSize: true,
+                  includeAxis: true,
+                  selectionMode: "multi"
+              }).draw();
+
+              cx.on('modelLoaded', function(e){
+                  $("#xdes").text("event: modelLoaded");
+
+              });
+
+              cx.on('bandSelection', function(e){
+                  $("#xdes").text("event: bandSelection");
+                  $("#xstart").text("start: " + e.start);
+                  $("#xend").text("end: " + e.end);
+
+              });
+
+              cx.on('selectionChanged', function(e){
+                  $("#xdes").text("event: selectionChanged");
+                  $("#xstart").text("start: " + e.start);
+                  $("#xend").text("end: " + e.end);
+
+              });
+
+              $("#rs-btn").click(function(){
+                  cx.deleteSelectors();
+              });
+
+
 
           });
       </script>
@@ -42,6 +77,15 @@
 
           <h4>Chromosome 13 </h4>
           <svg id="chr13"></svg>
+
+          <h4>Chromosome X </h4>
+
+          <p >Selection Mode: multi (use shift)</p>
+          <button id="rs-btn">Reset Selectors</button>
+          <p id="xdes"></p>
+          <p id="xstart">start: </p>
+          <p id="xend">end: </p>
+          <svg id="chrx"></svg>
 
           <p>This project uses D3.js to visualize chromosome bands using svg rect. The annotations are retrieved remotely from a specified DAS source. </p>
           <h4>Features</h4>
@@ -95,6 +139,25 @@ var ch13 = new Chromosome({
           </tr>
         </tbody></table>
 
+          <h2>API</h2>
+          <h4>Chromosome(opts)</h4>
+          <p>Constructor for instantiating a single chromosome visualization</p>
+
+          <h4>draw()</h4>
+          <p>Apply the d3 DOM manipulations to the svg container</p>
+
+          <h4>info()</h4>
+          <p>Returns the options object</p>
+
+          <h4>getCoordsByBand(band)</h4>
+          <p>Returns base coordinates by band location</p>
+
+          <h4>getCurrentSelections()</h4>
+          <p>Return array of [start, end] coordinates for each selector</p>
+
+          <h4>deleteSelectors()</h4>
+          <p>Deletes all current selectors</p>
+
           <h2>Events</h2>
 
           <p>The following events are triggered: </p>
@@ -106,7 +169,10 @@ var ch13 = new Chromosome({
           </ul>
 
           <pre><code>
+cx.on('selectionChanged', function(e){
+    //here e contains selected info such as start and end coordinates
 
+});
           </code></pre>
 
 
