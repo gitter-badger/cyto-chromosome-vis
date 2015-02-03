@@ -102,7 +102,7 @@
           <p>Then add the following in a js file:</p>
 
           <pre><code>
-var Chromosome = require('Chromosome');
+var Chromosome = require('cyto-chromosome-vis');
 var ch13 = new Chromosome({
     segment: "13",
     target: "#chr13",
@@ -111,7 +111,7 @@ var ch13 = new Chromosome({
           </code></pre>
 
 
-        <p>The constructor to Chromosome takes a options argument.
+        <p>The constructor takes a options argument.
         <table>
           <tbody><tr>
             <th>Option</th><th>Required</th><th>Description</th>
@@ -121,6 +121,10 @@ var ch13 = new Chromosome({
           </tr>
           <tr>
             <td>target</td><td>Required</td><td>The svg container, e.g "#chr13" </td>
+          </tr>
+
+          <tr>
+              <td>dasSource</td><td>Optional</td><td>Default: http://www.ensembl.org/das/Homo_sapiens.GRCh38.karyotype </td>
           </tr>
           <tr>
               <td>width</td><td>Optional</td><td>Default: 900. The width to draw the svg container.  </td>
